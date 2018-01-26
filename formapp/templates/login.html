@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block head %}
+<title> Sign In </title>
+<link href="/static/css/bootstrap-social.css"  rel="stylesheet"> 
+<style type="text/css">
+  footer {
+    position: relative;
+    bottom: -140;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div style="width:350px;height:400px;margin-left:300px;margin-top:119px ;border:5px solid silver ;padding:20px 20px;background-color: white;border-radius: 5px;">
+<div class="nav" > <h3 style="font-size:18pt;font-family:verdana"><u><b><center>LOGIN </center></b></u></h3></div><br>
+<form class="form-group"  action='{% url 'check' %}' method = 'post'>
+{% csrf_token %}
+<b>Username:</b>  <input type="text" class="form-control" name="uname" placeholder="Enter Username"></input><br><br>
+<b>Password:</b>  <input type="password" class="form-control" name="passw" placeholder="Enter Password"></input> <br>
+<br>
+<center><button type="submit" class="btn btn-success" >Login</button></center>
+<center><a href="{% url 'password_reset' %}">Forgot Password?</a></center>
+</form><br><center>Not yet Registered? <a href="{% url 'register' %}">Register</a></center>
+
+</div>
+<div style="margin-left: 700px;margin-top: -200px;"><span class="badge" style="font-size: 20px;">OR</span></div>
+<div style="width: 250px;height: 300px;margin-left: 800px;margin-top: -100px;">
+<a class="btn btn-block btn-social btn-twitter" href="{% url 'social:begin' 'twitter' %}">
+    <span class="fa fa-twitter"></span> Sign in with Twitter
+  </a>	
+  <a class="btn btn-block btn-social btn-facebook" href="{% url 'social:begin' 'facebook' %}">
+    <span class="fa fa-facebook"></span> Sign in with Facebook
+  </a>	
+  <a class="btn btn-block btn-social btn-github" href="{% url 'social:begin' 'github' %}">
+    <span class="fa fa-github"></span> Sign in with Github
+  </a>	
+  <a class="btn btn-block btn-social btn-google" href="{% url 'social:begin' 'google-oauth2' %}">
+    <span class="fa fa-google"></span> Sign in with Google
+  </a>	
+</div>
+{% endblock %}

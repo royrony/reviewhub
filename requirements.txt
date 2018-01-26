@@ -1,0 +1,6 @@
+django
+django-taggit
+social-auth-app-django
+celery
+pillow
+django-ckeditor

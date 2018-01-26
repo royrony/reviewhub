@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block head %}
+<title> Create Post </title>
+<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<div style="width:800px;height:auto;margin-left:20%;margin-top:80px ;border:5px solid silver ;padding:30px 40px;background-color:black;">
+<center><h1><b><u>Post Review</u></b></h1></center><br>
+    <form method="POST" class="post-form" enctype="multipart/form-data">
+    {% csrf_token %}
+<h3 style="color: white">Title:</h3> {{form.title}}<br><br>
+<h3 style="color: white">Category:</h3> {{form.category}}
+<h3 style="color: white">Content:</h3> {{form.content}}<br>
+<h3 style="color: white">Pic: </h3>{{form.pic}}<br><br>
+<h3 style="color: white">Tags:</h3>{{form.tags}}<br><br><br>
+<center><button type="submit" value="submit" class="save btn btn-primary btn-md">Save</button></center>
+    </form>
+ </div>
+ {% load static %}
+<script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+{% endblock %}

@@ -1,0 +1,170 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}My shop{% endblock %}</title>
+    <link href="/static/css/bootstrap.min.css"  rel="stylesheet"> 
+    <link href="{% static "css/baseshop.css" %}" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"  rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+</head>
+<body background="/media/pic/White1.jpg";>
+<nav class="navbar navbar-default navbar-fixed-top"  >
+  <div class="container-fluid" style="background-color: #1B1B1F;">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/" style="font-family: 'Lobster', cursive;font-size: 50px;color: #ffffff">ReviewHub</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav" style="font-size: 1.2em;">
+        <li class="active"><a href="/">Home<span class="sr-only">(current)</span></a></li>
+        <li><a href="/profiledisp/">Profile</a></li>
+        <li><a href="/shop/">Store</a></li>
+        {% if request.user.is_authenticated %}
+        <li><a href="/post/new/">Post Review</a></li>
+        {% endif %}
+        
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <form class="navbar-form navbar-left" role="search" method="post" action='/search/'>
+        {% csrf_token %}
+            <input type="text" placeholder="Search" class="form-control" name="search_box" value="">&nbsp;
+            <button style="font-size: 15px;margin-left: -7px;" type="submit" value="" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+        </form>
+        {% if not request.user.is_authenticated %}
+        <div style="float: right;">
+        <a href="/register/" class="btn btn-primary" role="button" style="margin-top: 9px;">Sign Up</a>
+        <span class="badge" style="margin-top: 12px;">OR</span>
+        <a href="/login/" class="btn btn-primary" role="button" style="margin-top: 9px;">Login</a></div>
+        {% endif %}
+        {% if request.user.is_authenticated %}
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hello {{request.user}} {% if request.user.profile.profilepic %}<img src="{{request.user.profile.profilepic.url}}" class="img-circle" width="25px" height="25px"/><span class="caret"></span></a>
+          <ul class="dropdown-menu" style="width: 350px;height: 220px;">
+            <li><img src="{{request.user.profile.profilepic.url}}" class="img-circle" width="100px" height="100px" style="position:relative;top: 10px;left:10px;" />
+            <a style="position: relative;top: -70px;left: 110px;font-size: 20px;" href="{% url 'profiledisp' %}"> <b>{{request.user.first_name}} {{request.user.last_name}}</a>
+<p style="color:black;position: relative;left:30px;top:-75px;text-align: center;">{{request.user.email}}</p></li>
+<button style="position:relative;left: 40%;top: -70px;" onclick="location.href='/profile/'" type="submit" class="btn btn-primary">Edit Profile</button>
+            <li role="separator" class="divider" style="position: relative;top: -40px"></li>
+            <li><button onclick="location.href='/logout/'" type="submit" class="btn btn-danger" style="position: relative;left: 40%;top: -40px">Logout</button></li>
+          </ul>
+        </li>
+        {% endif %}
+        {% endif %}
+      </ul>
+      <div id="subheader">
+        <div class="cart">
+            {% with total_items=cart|length %}
+                {% if cart|length > 0 %}
+                    <i style="font-size: 20px;" class="fa fa-shopping-cart" aria-hidden="true"></i>
+                    <a href="{% url "cart:cart_detail" %}">
+                        {{ total_items }} item{{ total_items|pluralize }}, ₹{{ cart.get_total_price }}
+                    </a>
+                {% else %}
+                    <i style="font-size: 20px;" class="fa fa-shopping-cart" aria-hidden="true"></i> is empty
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+        
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+  
+</nav>
+    
+    <div id="content" style="margin-top: 50px;">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <!--Footer-->
+<footer style="position: relative;bottom: 0;" >
+
+    <div>
+        <div class="container">
+            <!--Grid row-->
+            <div class="row py-4 d-flex align-items-center">
+
+                <!--Grid column-->
+                
+
+            </div>
+            <!--Grid row-->
+        </div>
+    </div>
+
+    <!--Footer Links-->
+    <div class="container mt-5 mb-4 text-center text-md-left" style="background-color: #1B1B1F;width: 100%;color: #ffffff">
+        <div class="row mt-3">
+
+            <!--First column-->
+            <div class="col-md-3 col-lg-4 col-xl-3 mb-r">
+                <h6 class="title font-bold" style="font-size: 20px;"><strong>About Us</strong></h6>
+                <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;margin-top: -10px;">
+                <p>Read through all our book reviews, and discover the best rated fiction, non-fiction and children's books.</p>
+            </div>
+            <!--/.First column-->
+
+            <!--Second column-->
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-r">
+                <h6 class="title font-bold" style="font-size: 20px;"><strong>Products</strong></h6>
+                <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;margin-top: -10px;">
+                <p><a style="color: #ffffff" href="/shop/book/">Books</a></p>
+                <p><a style="color: #ffffff" href="/shop/movie/">Movies</a></p>
+                <p><a style="color: #ffffff" href="/">Reviews</a></p>
+                
+            </div>
+            <!--/.Second column-->
+
+            <!--Third column-->
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-r">
+                <h6 class="title font-bold" style="font-size: 20px;"><strong></strong></h6>
+                <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;margin-top: -10px;">
+                <a href="#"><img style="background-color: #000000;width: 130px;height: 50px" src="/media/pic/seal_125-50_white.png"></a><br><br>
+                    <a href="#"><img style="width: 180px;height: 60px" src="/media/pic/trust-signals-verified-by-visa.png"></a>
+            </div>
+            <!--/.Third column-->
+
+            <!--Fourth column-->
+            <div class="col-md-4 col-lg-3 col-xl-3">
+                <h6 class="title font-bold" style="font-size: 20px;"><strong>Contact</strong></h6>
+                <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;margin-top: -10px;">
+                <p><i class="fa fa-home mr-3"></i> New Delhi, 110054, India</p>
+                <p><i class="fa fa-envelope mr-3"></i> info@reviewhub.com</p>
+                <p><i class="fa fa-phone mr-3"></i> + 01 234 567 88</p>
+                <p><i class="fa fa-print mr-3"></i> + 01 234 567 89</p>
+            </div>
+            <!--/.Fourth column-->
+
+        </div>
+    </div>
+    <!--/.Footer Links-->
+
+    <!-- Copyright-->
+    <div class="footer-copyright" style="background-color: #1B1B1F;width: 100%;text-align: center;color: #ffffff">
+        <div class="container-fluid">
+            © 2017 Copyright: <a style="color: #ffffff" href="#"><strong> ReviewHub</strong></a>
+        </div>
+    </div>
+    <!--/.Copyright -->
+    
+</footer>
+<!--/.Footer-->
+    <script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+  $('li.active').removeClass('active');
+  $('a[href="' + location.pathname + '"]').closest('li').addClass('active'); 
+});
+ </script> 
+</body>
+</html>

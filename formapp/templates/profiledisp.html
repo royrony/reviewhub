@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block head %}
+<title> Profile </title> 
+{% endblock %}
+
+{% block content %}
+<div style="width:400px;height:550px;margin-left:37%;margin-top:5% ;border:5px solid silver ;padding:40px 40px;background-color: white">
+{% if request.user.profile.profilepic %}
+<center><img src="{{request.user.profile.profilepic.url}}" class="img-circle" width="150px" height="150px" border="2px"></center>
+{% endif %}
+<center>{{request.user.profile.gender}}</center>
+<hr style="border-width: 5px;border-color: teal">
+<center>
+<div style="background-color: #E1F7DB">
+<b>{{request.user.profile.bio}}</b><br><br>
+<b>First Name: {{request.user.first_name}}</b><br>
+<b>Last Name: {{request.user.last_name}}</b><br>
+<b>Mail me at: {{request.user.email}}</b><br>
+<b>Location:{{request.user.profile.location}}</b><br><br>
+{% if request.user.profile.facebook %}
+<a class="fa fa-facebook" href="{{request.user.profile.facebook}}"> </a>
+{% endif %}
+{% if request.user.profile.twitter %}
+<a class="fa fa-twitter" href="{{request.user.profile.twitter}}"> </a>
+{% endif %}
+{% if request.user.profile.instagram %}
+<a class="fa fa-instagram" href="{{request.user.profile.instagram}}"> </a><br><br>
+{% endif %}
+</div>
+<a href="#post" class="btn btn-primary btn-md" style="margin-top: 10px;">View My Posts</a><br>
+</div><br><br></center>
+<a name="post">
+<div class="col-sm-12">
+     <div class="thumbnail">
+     <div class="caption">
+{% for k in request.user.post_set.all %}
+<div>
+<h1 style="color: red">Title:</h1> {{k.title}}
+</div>
+<div>
+<h1 style="color: red">Review:</h1> {{k.content|safe}}<br><br>
+</div>
+{% if k.pic %}
+Pic: <img src="{{k.pic.url}}" height="200px" width="200px"><br><br>
+{% endif %}<br><br>
+{% endfor %}
+
+</div>
+</div>
+</div>
+</a>
+{% endblock %}
